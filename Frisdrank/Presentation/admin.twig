@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="style.css">
+		<title>
+			Document
+		</title>
+	</head>
+	<body>
+		<header>
+			<h2>
+				Admin Panel
+			</h2>
+		</header>
+		<div class="drank-overzicht-admin">
+			<table class="overzicht">
+				<thead>
+					<th>
+						Drank
+					</th>
+					<th>
+						Aantal
+					</th>
+					<th>
+						Actie
+					</th>
+				</thead>
+				<tbody>
+					{% for drank in drankenLijst %}
+						<tr>
+							<td>
+								{{ drank.naam }}
+							</td>
+							<td>
+								{% if drank.aantal <= 5 and drank.aantal > 0 %}
+									<p style="color: orange;">
+										{{ drank.aantal }}
+									</p>
+								{% elseif drank.aantal == 0 %}
+									<p style="color: red;">
+										{{ drank.aantal }}
+									</p>
+								{% else %}
+									<p>
+										{{ drank.aantal }}
+									</p>
+								{% endif %}
+							</td>
+							<td>
+								<form action="adminPanel.php?action=vullen&keuze={{ drank.id }}" method="POST">
+									<input type="text" name="txtVullen" id="txVullen" value="" placeholder="aantal">
+									<input type="submit" value="Aanvullen" class="aanvullen">
+								</form>
+							</td>
+						</tr>
+					{% endfor %}
+					{% if error is defined %}
+						<p class="error">
+							{{ error }}
+						</p>
+					{% endif %}
+				</tbody>
+			</tbody>
+		</table>
+	</body>
+</html></div><div class="munt-overzicht-admin">
+<table class="overzicht">
+	<thead>
+		<th>
+			Denominatie
+		</th>
+		<th>
+			Aantal
+		</th>
+	</thead>
+	<tbody>
+		{% for munt in lijstMunten %}
+			<tr>
+				<td>
+					{{ munt.valuta }}
+				</td>
+				<td>
+					{{ munt.aantal }}
+				</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table></div><div>
+<form action="adminPanel.php" method="POST">
+	<input type="submit" value="Kassa legen" name="legen">
+</form>
+<a href="index.php?action=logout" class="terug">
+	Uitloggen
+</a></div></body></html>

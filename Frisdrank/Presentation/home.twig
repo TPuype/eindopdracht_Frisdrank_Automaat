@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>
+			Frisdrankautomaat
+
+		</title>
+		{% block stylesheets %}
+			<link rel="stylesheet" type="text/css" href="./style.css"/>
+		{% endblock %}
+	</head>
+	<body>
+		<header>
+			<a href="adminLogin.php" class="admin">
+				Admin
+			</a>
+			<h2>
+				Frisdrankautomaat
+			</h2>
+		</header>
+		<div class="munten">
+			<h3>
+				Munt(en) inwerpen:
+			</h3>
+			<form action="index.php?action=inworp" method="POST">
+				<input type="submit" name="munt" value="0.10">
+				<input type="submit" name="munt" value="0.20">
+				<input type="submit" name="munt" value="0.50">
+				<input type="submit" name="munt" value="1">
+				<input type="submit" name="munt" value="2">
+			</form>
+			<br>
+			<span>
+				Ingeworpen bedrag: €
+				{{ session.ingeworpenBedrag }}
+			</span>
+		</div>
+		<br>
+		<form action="index.php?action=reset" method="POST">
+			<input type="submit" value="Uitwerpen">
+		</form>
+		<br>
+		<h3>
+			Maak uw keuze:
+		</h3>
+		<form action="" method="POST">
+			<nav class="drank-overzicht">
+				{% for drank in drankenLijst %}
+					<div class="drank">
+						{% if drank.InVoorraad == true %}
+							<a href="selectieController.php?action=inworp&keuze={{ drank.id }}">
+								<img src="{{ drank.ImgUrl }}" alt="test" class="products">
+							</a>
+							<span>
+								€
+								{{ drank.prijs }}
+							</span>
+						{% else %}
+							<a href="javascript:void(0)">
+								<img src="{{ drank.ImgUrl }}" alt="test" class="products">
+							</a>
+							<span>
+								Niet in voorraad
+							</span>
+						{% endif %}
+					</div>
+				{% endfor %}
+			</nav>
+			<br>
+			<br>
+		</form>
+	</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>
+			Frisdrankautomaat
+		</title>
+		<link rel="stylesheet" href="./style.css">
+		{% if betaald %}
+			<meta http-equiv="refresh" content="10; url=index.php">
+		{% endif %}
+	</head>
+	<body>
+		<header>
+			<a href="adminLogin.php" class="admin">
+				Admin
+			</a>
+			<a href="index.php?action=reset" class="terug">
+				Terug
+			</a>
+			<h2>
+				Frisdrankautomaat
+			</h2>
+		</header>
+		<div class="munten">
+			<form action="selectieController.php?action=inworp&keuze={{keuze}}" method="POST">
+				<input type="submit" name="munt" value="0.10">
+				<input type="submit" name="munt" value="0.20">
+				<input type="submit" name="munt" value="0.50">
+				<input type="submit" name="munt" value="1">
+				<input type="submit" name="munt" value="2">
+			</form>
+			<br>
+			<span>
+				Ingeworpen bedrag: €
+				{{ session.ingeworpenBedrag }}
+			</span>
+		</div>
+		<br>
+		<form action="index.php?action=reset" method="POST">
+			<input type="submit" value="Uitwerpen">
+		</form>
+		<br>
+		<h3>
+			Uw keuze
+		</h3>
+		<form action="selectieController.php?action=betaal&keuze={{ keuze }}" method="POST">
+			<nav class="drank-overzicht-selectie">
+				{% for drank in drankenLijst %}
+					{% if drank.id == keuze %}
+						<div class="drank">
+							<img src="{{ drank.ImgUrl }}" alt="test">
+							<span>
+								€
+								{{ drank.prijs }}
+							</span>
+						</div>
+					{% endif %}
+				{% endfor %}
+			</nav>
+			<input type="submit" value="Betalen">
+			<br>
+			{% if error is defined %}
+				<p>
+					{{ error }}
+				</p>
+			{% endif %}
+			<br>
+			{% if message is defined %}
+				<p>
+					{{ message }}
+				</p>
+			{% endif %}
+			<p>
+				Wisselgeld:
+			</p>
+			<ul>
+				<li>
+					{{ lijstMunten[0] }}
+					x €2
+				</li>
+				<li>
+					{{ lijstMunten[1] }}
+					x €1
+				</li>
+				<li>
+					{{ lijstMunten[2] }}
+					x €0.5
+				</li>
+				<li>
+					{{ lijstMunten[3] }}
+					x €0.2
+				</li>
+				<li>
+					{{ lijstMunten[4] }}
+					x €0.1
+				</li>
+			</ul>
+			<br>
+			<a href="index.php?action=reset" class="terug">
+				Terug
+			</a>
+		</form>
+	</body>
+</html>
